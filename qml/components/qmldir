@@ -1,0 +1,3 @@
+# Names must not clash with Silica types: those silently win over a directory import.
+singleton Tint 1.0 Tint.qml
+singleton Figures 1.0 Figures.qml

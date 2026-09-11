@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=irepos
+Exec=irepos
+Name=iRepos
+Name[de]=iRepos
+
+[X-Sailjail]
+Permissions=Internet;Secrets
+OrganizationName=org.irepos
+ApplicationName=irepos
