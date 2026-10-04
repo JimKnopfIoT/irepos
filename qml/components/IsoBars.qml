@@ -31,6 +31,12 @@ Canvas {
     onWidthChanged: requestPaint()
     onHeightChanged: requestPaint()
 
+    // Leaving the app can drop the canvas texture; nothing else repaints it on return.
+    Connections {
+        target: Qt.application
+        onStateChanged: if (Qt.application.state === Qt.ApplicationActive) chart.requestPaint()
+    }
+
     onPaint: {
         var context = getContext("2d")
         context.clearRect(0, 0, width, height)

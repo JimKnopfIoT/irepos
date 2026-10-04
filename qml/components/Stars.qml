@@ -16,6 +16,12 @@ Canvas {
     onWidthChanged: requestPaint()
     onHeightChanged: requestPaint()
 
+    // Leaving the app can drop the canvas texture; nothing else repaints it on return.
+    Connections {
+        target: Qt.application
+        onStateChanged: if (Qt.application.state === Qt.ApplicationActive) stars.requestPaint()
+    }
+
     function outline(ctx, left, size) {
         var cx = left + size / 2
         var cy = size * 0.53
