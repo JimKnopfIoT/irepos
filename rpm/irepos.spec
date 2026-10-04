@@ -2,7 +2,7 @@
 %define _buildhost reproducible-builder
 Name:       irepos
 Summary:    OpenRepos download figures
-Version:    0.1.1
+Version:    0.1.2
 Release:    1
 License:    BSD-3-Clause
 URL:        https://github.com/JimKnopfIoT/irepos
@@ -53,6 +53,10 @@ secrets storage.
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
+* Sun Oct 04 2026 irepos contributors 0.1.2-1
+- Charts, the world map and the stars no longer come back blank after the
+  app has been in the background; they are drawn again on return.
+
 * Sun Oct 04 2026 irepos contributors 0.1.1-1
 - The overview shows each application's rating: the percentage, the number
   of votes in brackets and five stars filled to the rating.
