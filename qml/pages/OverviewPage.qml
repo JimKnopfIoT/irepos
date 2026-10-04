@@ -173,6 +173,11 @@ Page {
             title: modelData.title
             version: modelData.version
             downloads: modelData.downloads
+            rating: modelData.rating || 0
+            votes: modelData.votes || 0
+            shift: Figures.period.length > 0
+                   && Figures.shifts[modelData.slug] !== undefined
+                   ? Figures.shifts[modelData.slug] : null
             // Since always the gain would repeat the total.
             growth: Figures.period.length > 0
                     && Figures.gains[modelData.slug] !== undefined

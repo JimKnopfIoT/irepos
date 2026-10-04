@@ -2,7 +2,7 @@
 %define _buildhost reproducible-builder
 Name:       irepos
 Summary:    OpenRepos download figures
-Version:    0.1.0
+Version:    0.1.1
 Release:    1
 License:    BSD-3-Clause
 URL:        https://github.com/JimKnopfIoT/irepos
@@ -53,6 +53,15 @@ secrets storage.
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
+* Sun Oct 04 2026 irepos contributors 0.1.1-1
+- The overview shows each application's rating: the percentage, the number
+  of votes in brackets and five stars filled to the rating.
+- When votes came in during the period, the change in stars stands in front
+  of it: +0,1 in green, -0,1 in red.
+- The rating keeps its decimals; it was rounded to a whole percent before.
+- The 3D chart of every application divides the period as finely as the
+  screen width allows, instead of a fixed number of columns.
+
 * Fri Sep 11 2026 irepos contributors 0.1.0-1
 - First release. The download figures of your own OpenRepos applications on
   the phone: what any period brought - days, weeks, months, years, or a

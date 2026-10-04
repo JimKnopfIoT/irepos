@@ -47,6 +47,7 @@ DISTFILES += \
     qml/components/StatCard.qml \
     qml/components/StepButton.qml \
     qml/components/AppRow.qml \
+    qml/components/Stars.qml \
     qml/components/ChartDeck.qml \
     qml/components/Iso3D.qml \
     qml/components/IsoBars.qml \

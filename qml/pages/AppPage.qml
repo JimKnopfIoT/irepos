@@ -121,7 +121,7 @@ Page {
                 DetailItem {
                     label: qsTr("Rating")
                     value: page.row && page.row.votes > 0
-                           ? qsTr("%1 % from %2 votes").arg(page.row.rating).arg(page.row.votes)
+                           ? qsTr("%1 % from %2 votes").arg(Format.decimal(page.row.rating)).arg(page.row.votes)
                            : qsTr("none yet")
                 }
 

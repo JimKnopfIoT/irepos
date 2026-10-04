@@ -9,8 +9,7 @@ Column {
 
     property real maxHeight: Screen.height / 2
     readonly property int currentIndex: view.currentIndex
-    readonly property string unit: currentIndex === 1 ? Figures.history.unit
-                                                      : Figures.wholeHistory.unit
+    readonly property string unit: view.currentItem ? view.currentItem.unit : "day"
 
     signal tapped(string slug)
 
@@ -18,12 +17,26 @@ Column {
 
     Component {
         id: wholeSlide
-        Iso3D { history: Figures.wholeHistory; axes: true; interactive: true }
+        Iso3D {
+            apps: Figures.rows
+            cells: Figures.cells
+            from: Figures.periodFrom
+            to: Figures.periodTo
+            axes: true
+            interactive: true
+        }
     }
 
+    // The same period for the biggest eight, held at a glance's worth of columns.
     Component {
         id: topSlide
-        Iso3D { history: Figures.history }
+        Iso3D {
+            apps: Figures.rows.slice(0, 8)
+            cells: Figures.cells
+            from: Figures.periodFrom
+            to: Figures.periodTo
+            columns: 10
+        }
     }
 
     SlideshowView {
@@ -40,6 +53,8 @@ Column {
         delegate: Item {
             width: view.itemWidth
             height: view.itemHeight
+
+            readonly property string unit: slide.item ? slide.item.history.unit : "day"
 
             Loader {
                 id: slide
