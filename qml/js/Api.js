@@ -107,6 +107,12 @@ function number(value) {
     return isNaN(parsed) ? 0 : Math.round(parsed)
 }
 
+// "71.6667" stays 71.6667; the rating is a percentage with decimals.
+function fraction(value) {
+    var parsed = parseFloat(String(value === undefined || value === null ? "" : value))
+    return isNaN(parsed) ? 0 : parsed
+}
+
 function app(appId, onDone, onFail) {
     request(BASE + "/api/v1/apps/" + appId, function (text) {
         var data
@@ -130,7 +136,7 @@ function app(appId, onDone, onFail) {
             "downloads": number(data.downloads),
             "version": version,
             "comments": number(data.comments_count),
-            "rating": number(rating.rating),
+            "rating": fraction(rating.rating),
             "votes": number(rating.count),
             "updated": number(data.updated)
         })

@@ -1,14 +1,24 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "."
+import "../js/Chart.js" as Chart
 import "../js/Format.js" as Format
 
 // Downloads per app and column as blocks on an isometric floor: columns run right, apps run back.
 Item {
     id: chart
 
-    // Chart.grid output; a null value draws no block.
-    property var history: ({ "days": [], "ends": [], "series": [] })
+    // What to draw: the apps, their stored totals and the period.
+    property var apps: []
+    property var cells: ({})
+    property string from: ""
+    property string to: ""
+    // Columns are binned to the finest unit whose blocks stay this wide: a quarter year of days.
+    property real minStep: Theme.paddingSmall * 0.45
+    // A binding, so the floor re-bins on a resize; a fixed value from outside simply replaces it.
+    property int columns: _fit()
+    // A null value draws no block.
+    readonly property var history: Chart.grid(apps, cells, columns, from, to)
     property int ticks: 4
     // Scale on the left and dates along the front; the per-app figures on the right are always drawn.
     property bool axes: false
@@ -47,6 +57,17 @@ Item {
     // cos 30° and sin 30°.
     readonly property real _cos: 0.8660254
     readonly property real _sin: 0.5
+
+    // Columns the floor holds: it is √3 wide for every 1 it is tall, the labels take the rest.
+    function _fit() {
+        var pad = Theme.paddingSmall
+        var font = Theme.fontSizeExtraSmall
+        // Four digits of scale on the left and of per-app figures on the right.
+        var labels = 2.2 * font + 2 * pad
+        var side = Math.min((width - (axes ? labels : pad) - labels) / (2 * _cos),
+                            (height - pad - (axes ? 2 * font : pad)) * 0.66)
+        return Math.max(4, Math.floor(side / minStep))
+    }
 
     function _inHull(hull, x, y) {
         var hit = false

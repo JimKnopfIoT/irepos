@@ -36,6 +36,20 @@ function growth(value) {
     return value > 0 ? ("+" + count(value)) : "±0"
 }
 
+// 71.6667 → "71,7", 4 → "4".
+function decimal(value) {
+    return String(Math.round(value * 10) / 10).replace(".", ",")
+}
+
+// Stars gained or lost: "+1", "+0,1", "−0,3", "±0".
+function stars(value) {
+    var tenths = Math.round(value * 10)
+    if (tenths === 0) {
+        return "±0"
+    }
+    return (tenths > 0 ? "+" : "\u2212") + decimal(Math.abs(tenths) / 10)
+}
+
 // "2026-09-04" → "04.09.2026".
 function date(stamp) {
     var parts = String(stamp).split("-")

@@ -47,11 +47,12 @@ QtObject {
                                                             : unitText(period, periodCount)
 
     property var gains: ({})
+    property var shifts: ({})
     property var periodGain: null
     property int periodApps: 0
     property var periodRows: []
-    property var history: ({ "days": [], "ends": [], "unit": "day", "series": [] })
-    property var wholeHistory: ({ "days": [], "ends": [], "unit": "day", "series": [] })
+    // Every app's running totals as { slug: { day: downloads } }; each chart bins them itself.
+    property var cells: ({})
 
     property bool busy: false
     property int done: 0
@@ -244,9 +245,7 @@ QtObject {
         var range = data._range()
         data.periodFrom = range.from
         data.periodTo = range.to
-        var cells = Store.cells()
-        data.history = Chart.grid(data.rows.slice(0, 8), cells, 10, range.from, range.to)
-        data.wholeHistory = Chart.grid(data.rows, cells, 31, range.from, range.to)
+        data.cells = Store.cells()
         data._showCountries(range.from, range.to)
 
         var gained = Store.gains(range.from, range.to)
@@ -269,6 +268,7 @@ QtObject {
         }
         cut.sort(function (a, b) { return b.downloads - a.downloads })
         data.gains = gained
+        data.shifts = Store.ratingShifts(range.from, range.to)
         data.periodGain = known ? sum : null
         data.periodApps = active
         data.periodRows = cut

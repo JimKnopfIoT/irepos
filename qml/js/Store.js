@@ -157,6 +157,30 @@ function gains(from, to) {
     return out
 }
 
+// { slug: change in stars } over `from`..`to` where votes came in; history-only rows (updated 0) carry no rating.
+function ratingShifts(from, to) {
+    var out = {}
+    var rows = _all("SELECT s.slug AS slug, "
+                    + "(SELECT rating || ',' || votes FROM day b WHERE b.slug = s.slug "
+                    + " AND b.day < ? AND b.updated > 0 ORDER BY b.day DESC LIMIT 1) AS base, "
+                    + "(SELECT rating || ',' || votes FROM day e WHERE e.slug = s.slug "
+                    + " AND e.day <= ? AND e.updated > 0 ORDER BY e.day DESC LIMIT 1) AS upto "
+                    + "FROM (SELECT DISTINCT slug FROM day) s",
+                    [from || "", to || Dates.today()],
+                    function (row) { return row })
+    for (var i = 0; i < rows.length; ++i) {
+        if (!rows[i].base || !rows[i].upto) {
+            continue
+        }
+        var base = String(rows[i].base).split(",")
+        var upto = String(rows[i].upto).split(",")
+        if (Number(upto[1]) > Number(base[1])) {
+            out[rows[i].slug] = (Number(upto[0]) - Number(base[0])) / 20
+        }
+    }
+    return out
+}
+
 function curve(slug) {
     return _all("SELECT day, downloads FROM day WHERE slug = ? ORDER BY day", [slug],
                 function (row) { return { "day": row.day, "downloads": row.downloads } })

@@ -10,6 +10,9 @@ ListItem {
     property string version
     property int downloads: 0
     property var growth: null
+    property real rating: 0
+    property int votes: 0
+    property var shift: null
     property color accent: Tint.forName(title)
 
     contentHeight: Theme.itemSizeExtraSmall
@@ -79,6 +82,40 @@ ListItem {
             verticalCenter: parent.verticalCenter
         }
         spacing: Theme.paddingSmall
+
+        Label {
+            anchors.baseline: number.baseline
+            font.pixelSize: Theme.fontSizeExtraSmall
+            color: row.shift === null || Math.round(row.shift * 10) === 0
+                   ? Theme.secondaryColor
+                   : (row.shift > 0 ? Tint.green : Tint.red)
+            visible: row.shift !== null && row.votes > 0
+            text: row.shift === null ? "" : Format.stars(row.shift)
+        }
+
+        Label {
+            anchors.baseline: number.baseline
+            font.pixelSize: Theme.fontSizeExtraSmall
+            color: row.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+            visible: row.votes > 0
+            text: Format.decimal(row.rating) + " % (" + Format.count(row.votes) + ")"
+        }
+
+        Stars {
+            anchors.verticalCenter: number.verticalCenter
+            height: Math.round(Theme.fontSizeExtraSmall * 0.6)
+            rating: row.rating
+            color: row.highlighted ? Theme.highlightColor : Tint.amber
+            emptyColor: row.highlighted ? Theme.secondaryHighlightColor
+                                        : Qt.rgba(1, 1, 1, 0.2)
+            visible: row.votes > 0
+        }
+
+        Item {
+            width: Theme.paddingMedium
+            height: 1
+            visible: row.votes > 0
+        }
 
         Label {
             anchors.baseline: number.baseline
