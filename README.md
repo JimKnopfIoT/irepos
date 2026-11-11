@@ -37,7 +37,7 @@ mb2 -t SailfishOS-<version>-aarch64 build    # the RPM lands in RPMS/
 On the device the package pulls in `sailfishsecretsd` and its sqlcipher
 storage plugin, which hold the login.
 
-AI assisted development
+LLM assisted development
 
 ## License
 
